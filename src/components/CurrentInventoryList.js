@@ -1,35 +1,30 @@
-import React, { useState, useEffect } from 'react'
-import InventoryItemCard from './InventoryItemCard'
+import React from 'react'
+import InventoryItemCard from './InventoryItemCard';
 
-function CurrentInventoryList() {
-    const [onInventory, setOnInventory] = useState([])
+function CurrentInventoryList({allInventory, reOrderData, setReOrderData, handleDeleteClick}) {
 
-    useEffect(() => {
-        fetch('http://localhost:8001/inventory')
-        .then(resp => resp.json())
-        .then(bodegaData => {
-            console.log(bodegaData);
-            setOnInventory(bodegaData);
-           
+
+    const inventoryItems = allInventory.map((item) => {
+        function handleClick() {
+            if (!reOrderData.includes(item)) {
+                setReOrderData([...reOrderData, item]);
+            } 
+        }
+        return (
+         <InventoryItemCard
+             key={item.id}
+             item={item} 
+             handleClick={handleClick}
+             handleDeleteClick={handleDeleteClick}
+         />
+        )
         })
-    }, [])
-
 
     return(
         <div id="current-inventory">
             <h2>Current Inventory</h2>
             <div>
-               {onInventory.map((item) => {
-                   return (
-                    <InventoryItemCard
-                        key={item.id}
-                        itemName={item.name}
-                        itemImage={item.image}
-                        itemPrice={item.price}
-                    />
-                   )
-                })
-            }
+              {inventoryItems}
             </div>
         </div>
     );

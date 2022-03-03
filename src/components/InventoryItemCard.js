@@ -1,14 +1,21 @@
 import React from 'react'
 
-function InventoryItemCard({item}) {
+function InventoryItemCard({item, handleClick, handleDeleteClick}) {
+    const { id } = item;
+  
+    function theDeleteClick() {
+        handleDeleteClick(id);
+    }
+    
     return(
-        <div className="card" onClick={() => console.log("Clicking the item...")}>
-            <img src=''></img>
-            <h3>ITEM NAME</h3>
-            <h4>$ITEM PRICE</h4>
-            <button onClick={() => console.log("Deleting the item...")}>Delete</button>
+        <div className="card" onClick={handleClick}>
+            <img src={item.image}></img>
+            <h3>{item.name}</h3>
+            <h4>${item.price}</h4>
+            <button onClick={theDeleteClick}>Delete</button>
         </div>
     );
 }
 
 export default InventoryItemCard;
+
